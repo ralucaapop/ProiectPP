@@ -1,0 +1,225 @@
+#include <iostream>
+#include "Joc.h"
+#include "Oferta.h"
+#include <fstream>
+#include <string.h>
+#include "string"
+#include "list"
+using namespace std;
+
+void citire()
+{
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");
+        int nrJocuri;
+        fin>>nrJocuri;
+       for(int i=0;i<nrJocuri;i++)
+        {
+            int id, nrC;
+            string denumire;
+            double pret, memorie;
+            fin>>id;
+            fin.ignore();
+            getline(fin,denumire);
+            fin>>pret>>nrC>>memorie;
+            Joc j1(id,denumire,pret,nrC,memorie);
+            cout<<j1;
+            cout<<endl<<endl;
+        }
+}
+void adaugareJoc(char*argv[])
+{
+        list<Joc*>l;
+        int ok=1;
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");
+        int nrJocuri;
+        fin>>nrJocuri;
+       for(int i=0;i<nrJocuri;i++)
+        {
+            int id, nrC;
+            string denumire;
+            double pret, memorie;
+            fin>>id;
+            if(id==stoi(argv[2]))
+                ok=0;
+            fin.ignore();
+            getline(fin,denumire);
+            fin>>pret>>nrC>>memorie;
+            Joc j1(id,denumire,pret,nrC,memorie);
+            l.push_back(new Joc(j1));
+        }
+        if(ok==1)
+        {nrJocuri++;
+        Joc j(stoi(argv[2]),argv[3], stod(argv[4]),stoi(argv[5]), stod(argv[6]));
+        l.push_back(new Joc(j));
+        cout<<"Produsul a fost adaugat deja in magazin";
+        }
+        else cout<<"Deja exista un produs cu acest id!";
+
+        ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");//scrierea in fisier
+        fout<<nrJocuri;
+        fout<<"\n";
+        list<Joc*>::iterator it;
+        for(it=l.begin();it!=l.end();it++)
+          {fout<<**it;fout<<'\n';}
+
+}
+void stergeJoc(char*argv[])
+{
+    list<Joc*>l;
+        int id = stoi(argv[2]);
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");
+        int nrJocuri;
+        fin>>nrJocuri;
+       for(int i=0;i<nrJocuri;i++)//punere in lista a elementelor
+        {
+            int id, nrC;
+            string denumire;
+            double pret, memorie;
+            fin>>id;
+            fin.ignore();
+            getline(fin,denumire);
+            fin>>pret>>nrC>>memorie;
+            Joc j1(id,denumire,pret,nrC,memorie);
+            l.push_back(new Joc(j1));
+        }
+        ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");
+        fout<<--nrJocuri;
+        fout<<"\n";
+        int ok=1;
+        list<Joc*>::iterator it;
+        for(it=l.begin();it!=l.end();it++)///stergere element(daca are id pe care il dorim ssa il stergem nu il mai adaugam in fisir)
+          {
+              Joc *j1=*it;
+              if(j1->getId()!=id)
+              {fout<<**it;fout<<'\n';}
+              else{ok=0;}
+          }
+        if(ok==0)
+            cout<<"Produsul a fost sters";
+        else cout<<"Produsul nu exista";
+}
+
+void modificareJoc(char *argv[])
+{
+    int idA=stoi(argv[2]);
+    double pretA=stod(argv[3]);
+     list<Joc*>l;
+        int ok=1;
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");
+        int nrJocuri;
+        fin>>nrJocuri;
+       for(int i=0;i<nrJocuri;i++)
+        {
+            int id, nrC;
+            string denumire;
+            double pret, memorie;
+            fin>>id;
+            fin.ignore();
+            getline(fin,denumire);
+            fin>>pret>>nrC>>memorie;
+            if(id==idA)
+                {pret=pretA;ok=0;}
+            Joc j1(id,denumire,pret,nrC,memorie);
+            l.push_back(new Joc(j1));
+        }
+        ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");//scrierea in fisier
+        fout<<nrJocuri;
+        fout<<"\n";
+        list<Joc*>::iterator it;
+        for(it=l.begin();it!=l.end();it++)
+          {fout<<**it;fout<<'\n';}
+        if(ok==0)cout<<"Pretul produsului a fost modificat";
+        else cout<<"Nu s-a gasit produsul respectiv";
+}
+
+Oferta** vizualizareOferte(int ok)
+{
+        Oferta**o;
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\oferte.txt");
+        int nrOferte;
+        fin>>nrOferte;
+        o=new Oferta*[nrOferte];
+        for(int i=0;i<nrOferte;i++)
+        {
+            if(ok!=1)
+            cout<<"OFERTA "<<(i+1)<<"\n";
+            int id, nrJ;
+            double pret;
+            fin>>id;
+            fin>>pret;
+            fin>>nrJ;
+            o[i]= new Oferta(id,pret,nrJ);
+            o[i]->memorie(nrJ);
+            for(int j=0;j<nrJ;j++)
+            {
+
+                int id, nrC;
+                string denumire;
+                double pret, memorie;
+                fin>>id;
+                fin.ignore();
+                getline(fin,denumire);
+                fin>>pret>>nrC>>memorie;
+                Joc *j1= new Joc(id,denumire,pret,nrC,memorie);
+                //->afisare();
+                o[i]->adaugaJoc(j1,j);
+
+            }
+            if(ok!=1)
+            {o[i]->afisare();
+            cout<<endl;}
+        }
+    if(ok==1)
+        return o;
+}
+void adaugaOferta(char*argv[])
+{
+    ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\oferte.txt");
+        int nrOferte;
+        fin>>nrOferte;
+
+    Oferta**o=vizualizareOferte(1);
+    for(int i=0;i<nrOferte;i++)
+    {
+        int x=o[i]->getId();
+       if(x==stoi(argv[2]))
+        cout<<"Aceasta oferta exista deja";
+       else
+       {
+         nrOferte++;
+         o=new Oferta*[nrOferte];
+
+         Joc j(stoi(argv[2]),argv[3], stod(argv[4]),stoi(argv[5]), stod(argv[6]));
+        cout<<"Aceasta oferta a fost adaugata";
+       }
+    }
+}
+int main(int argc, char*argv[])
+{
+
+    if(strcmp(argv[1],"vizualizare_jocuri")==0)
+    {
+        citire();
+    }
+   else if(strcmp(argv[1],"adaugare_joc")==0)
+    {
+        adaugareJoc(argv);
+    }
+    else if(strcmp(argv[1],"stergere_joc")==0)
+    {
+        stergeJoc(argv);
+    }
+    else if(strcmp(argv[1],"modificare_joc")==0)
+    {
+        modificareJoc(argv);
+    }
+    else if(strcmp(argv[1],"vizualizare_oferte")==0)
+    {
+        vizualizareOferte(0);
+    }
+     else if(strcmp(argv[1],"adaugare_oferta")==0)
+    {
+        adaugaOferta(argv);
+    }
+    return 0;
+}
