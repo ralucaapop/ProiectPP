@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Joc.h"
-#include "Oferta.h"
+#include "C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\Data\\Joc.h"
+#include "C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\Data\\Oferta.h"
 #include <fstream>
 #include <string.h>
 #include "string"
@@ -9,7 +9,7 @@ using namespace std;
 
 void citire()
 {
-        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");
         int nrJocuri;
         fin>>nrJocuri;
        for(int i=0;i<nrJocuri;i++)
@@ -30,7 +30,7 @@ void adaugareJoc(char*argv[])
 {
         list<Joc*>l;
         int ok=1;
-        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");
         int nrJocuri;
         fin>>nrJocuri;
        for(int i=0;i<nrJocuri;i++)
@@ -55,7 +55,7 @@ void adaugareJoc(char*argv[])
         }
         else cout<<"Deja exista un produs cu acest id!";
 
-        ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");//scrierea in fisier
+        ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");//scrierea in fisier
         fout<<nrJocuri;
         fout<<"\n";
         list<Joc*>::iterator it;
@@ -67,7 +67,7 @@ void stergeJoc(char*argv[])
 {
     list<Joc*>l;
         int id = stoi(argv[2]);
-        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");
         int nrJocuri;
         fin>>nrJocuri;
        for(int i=0;i<nrJocuri;i++)//punere in lista a elementelor
@@ -82,7 +82,7 @@ void stergeJoc(char*argv[])
             Joc j1(id,denumire,pret,nrC,memorie);
             l.push_back(new Joc(j1));
         }
-        ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");
+        ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");
         fout<<--nrJocuri;
         fout<<"\n";
         int ok=1;
@@ -105,7 +105,7 @@ void modificareJoc(char *argv[])
     double pretA=stod(argv[3]);
      list<Joc*>l;
         int ok=1;
-        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");
         int nrJocuri;
         fin>>nrJocuri;
        for(int i=0;i<nrJocuri;i++)
@@ -122,7 +122,7 @@ void modificareJoc(char *argv[])
             Joc j1(id,denumire,pret,nrC,memorie);
             l.push_back(new Joc(j1));
         }
-        ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\produse.txt");//scrierea in fisier
+        ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");//scrierea in fisier
         fout<<nrJocuri;
         fout<<"\n";
         list<Joc*>::iterator it;
@@ -135,7 +135,7 @@ void modificareJoc(char *argv[])
 Oferta** vizualizareOferte(int ok)
 {
         Oferta**o;
-        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\oferte.txt");
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");
         int nrOferte;
         fin>>nrOferte;
         o=new Oferta*[nrOferte];
@@ -174,7 +174,7 @@ Oferta** vizualizareOferte(int ok)
 }
 void adaugaOferta(char*argv[])
 {
-    ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\files\\oferte.txt");
+    ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");
         int nrOferte;
         fin>>nrOferte;
 
