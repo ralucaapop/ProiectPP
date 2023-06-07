@@ -1,6 +1,6 @@
-#include "C:\Users\Raluca\OneDrive\Desktop\fac\ProJoc\Data\Oferta.h"
+#include "C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\Data\\Oferta.h"
 #include <iostream>
-#include "C:\Users\Raluca\OneDrive\Desktop\fac\ProJoc\Data\Joc.h"
+#include "C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\Data\\Joc.h"
 
 Oferta::Oferta(int id, double pret, int nrj)
 {
