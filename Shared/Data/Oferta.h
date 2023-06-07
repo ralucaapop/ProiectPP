@@ -1,7 +1,7 @@
 #ifndef OFERTA_H
 #define OFERTA_H
 #include <stdlib.h>
-#include "Joc.h"
+#include "C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\Data\\Joc.h"
 using namespace std;
 class Oferta
 {
