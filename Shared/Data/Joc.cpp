@@ -1,4 +1,4 @@
-#include "C:\Users\Raluca\OneDrive\Desktop\fac\ProJoc\Data\Joc.h"
+#include "C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\Data\\Joc.h"
 #include <iostream>
 
 Joc::Joc()
