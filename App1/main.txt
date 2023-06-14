@@ -174,25 +174,150 @@ Oferta** vizualizareOferte(int ok)
 }
 void adaugaOferta(char*argv[])
 {
-    ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");
+    ifstream fin1("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");
         int nrOferte;
-        fin>>nrOferte;
-
+        fin1>>nrOferte;
+    int ok=0;
     Oferta**o=vizualizareOferte(1);
     for(int i=0;i<nrOferte;i++)
-    {
-        int x=o[i]->getId();
-       if(x==stoi(argv[2]))
-        cout<<"Aceasta oferta exista deja";
-       else
+        {
+            int x=o[i]->getId();
+            if(x==stoi(argv[2]))
+            {
+
+                ok=1;
+
+            }
+        }
+    if(ok==1)cout<<"Aceasta oferta exista deja";
+       if(ok==0)
        {
+        Oferta**o;
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");
+        int nrOferte;
+        fin>>nrOferte;
          nrOferte++;
          o=new Oferta*[nrOferte];
+          for(int i=0;i<nrOferte-1;i++)
+            {
+                int id, nrJ;
+                double pret;
+                fin>>id;
+                fin>>pret;
+                fin>>nrJ;
+                o[i]= new Oferta(id,pret,nrJ);
+                o[i]->memorie(nrJ);
+                for(int j=0;j<nrJ;j++)
+                {
 
-         Joc j(stoi(argv[2]),argv[3], stod(argv[4]),stoi(argv[5]), stod(argv[6]));
+                    int id, nrC;
+                    string denumire;
+                    double pret, memorie;
+                    fin>>id;
+                    fin.ignore();
+                    getline(fin,denumire);
+                    fin>>pret>>nrC>>memorie;
+                    Joc *j1= new Joc(id,denumire,pret,nrC,memorie);
+                    j1->afisareJ();
+                    o[i]->adaugaJoc(j1,j);
+                }
+            }
+
+            o[nrOferte-1]=new Oferta(stoi(argv[2]),stod(argv[3]),stoi(argv[4]));
+            int nrJocuriOfNoua=stoi(argv[4]);
+            o[nrOferte-1]->memorie(nrJocuriOfNoua);
+             for(int i=0;i<nrJocuriOfNoua;i++)
+                { //Joc j(stoi(argv[5]),argv[6], stod(argv[7]),stoi(argv[8]), stod(argv[9]));
+                Joc j(stoi(argv[5+i*5]),argv[i*5+6], stod(argv[5*i+7]),stoi(argv[5*i+8]), stod(argv[5*i+9]));
+                Joc *j1= new Joc(j);
+                o[nrOferte-1]->adaugaJoc(j1,i);
+               }
+         //Joc j(stoi(argv[2]),argv[3], stod(argv[4]),stoi(argv[5]), stod(argv[6]));
+          ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");//scrierea in fisier
+          fout<<nrOferte<<"\n";
+         for(int i=0;i<nrOferte;i++)
+            {
+                fout<<o[i]->getId();
+                fout<<"\n";
+                fout<<o[i]->getPret();
+                fout<<"\n";
+                fout<<o[i]->getNrj();
+                fout<<"\n";
+                for(int j=0;j<o[i]->getNrj();j++)
+                    {fout<<*(o[i]->getJoc(j));
+                fout<<"\n";}
+            }
         cout<<"Aceasta oferta a fost adaugata";
        }
-    }
+
+}
+void stergereOferta(char*argv[])
+{
+    ifstream fin1("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");
+        int nrOferte;
+        fin1>>nrOferte;
+    int ok=0;
+    Oferta**o=vizualizareOferte(1);
+    for(int i=0;i<nrOferte;i++)
+        {
+            int x=o[i]->getId();
+            if(x==stoi(argv[2]))
+                ok=1;
+        }
+    if(ok==0)
+        cout<<"Aceasta oferta nu exista";
+    else
+       if(ok==1)
+       {
+        Oferta**o;
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");
+        int nrOferte;
+        fin>>nrOferte;
+         o=new Oferta*[nrOferte];
+          for(int i=0;i<nrOferte;i++)
+            {
+                int id, nrJ;
+                double pret;
+                fin>>id;
+                fin>>pret;
+                fin>>nrJ;
+                o[i]= new Oferta(id,pret,nrJ);
+                o[i]->memorie(nrJ);
+                for(int j=0;j<nrJ;j++)
+                {
+                    int idj, nrC;
+                    string denumire;
+                    double pret, memorie;
+                    fin>>idj;
+                    fin.ignore();
+                    getline(fin,denumire);
+                    fin>>pret>>nrC>>memorie;
+                    Joc *j1= new Joc(idj,denumire,pret,nrC,memorie);
+                    o[i]->adaugaJoc(j1,j);
+                }
+            }
+        for(int i=0;i<nrOferte;i++)
+    
+          ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");//scrierea in fisier
+          fout<<nrOferte-1<<"\n";
+          int ids=stoi(argv[2]);
+         for(int i=0;i<nrOferte;i++)
+            {
+                    if(ids!=o[i]->getId())
+                    {fout<<o[i]->getId();
+                    fout<<"\n";
+                    fout<<o[i]->getPret();
+                    fout<<"\n";
+                    fout<<o[i]->getNrj();
+                    fout<<"\n";
+                    for(int j=0;j<o[i]->getNrj();j++)
+                        fout<<*(o[i]->getJoc(j));
+                        }
+
+            }
+        cout<<"Aceasta oferta a fost stearsa";
+       }
+
 }
 int main(int argc, char*argv[])
 {
@@ -220,6 +345,10 @@ int main(int argc, char*argv[])
      else if(strcmp(argv[1],"adaugare_oferta")==0)
     {
         adaugaOferta(argv);
+    }
+    else if(strcmp(argv[1],"stergere_oferta")==0)
+    {
+        stergereOferta(argv);
     }
     return 0;
 }
