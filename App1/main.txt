@@ -5,6 +5,7 @@
 #include <string.h>
 #include "string"
 #include "list"
+#include <vector>
 using namespace std;
 
 void citire()
@@ -26,8 +27,13 @@ void citire()
             cout<<endl<<endl;
         }
 }
-void adaugareJoc(char*argv[])
+void adaugareJoc(char*argv[],int args)
 {
+    //cout<<args;
+        if(args!=7)
+            cout<<"Sintaxa invalida! Sintaxa corecta: <adaugare_joc> id(int) Nume Joc(string) pret(double) Nr Cumparari(int) memorie(double)";
+        else
+    {
         list<Joc*>l;
         int ok=1;
         ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");
@@ -62,9 +68,13 @@ void adaugareJoc(char*argv[])
         for(it=l.begin();it!=l.end();it++)
           {fout<<**it;fout<<'\n';}
 
+    }
 }
-void stergeJoc(char*argv[])
+void stergeJoc(char*argv[], int args)
 {
+    if(args!=3)
+        cout<<"Sintaxa invalida! Sintaxa corecta: <stergere_joc> id(int)";
+    else{
     list<Joc*>l;
         int id = stoi(argv[2]);
         ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");
@@ -95,12 +105,16 @@ void stergeJoc(char*argv[])
               else{ok=0;}
           }
         if(ok==0)
-            cout<<"Produsul a fost sters";
-        else cout<<"Produsul nu exista";
+            cout<<"Jocul a fost sters";
+        else cout<<"Jocul nu exista";
+    }
 }
 
-void modificareJoc(char *argv[])
-{
+void modificareJoc(char *argv[], int args){
+if(args!=4)
+    cout<<"Sintaxa invalida! Sintaxa corecta: <modificare_joc> id(int) pret(double)";
+else{
+
     int idA=stoi(argv[2]);
     double pretA=stod(argv[3]);
      list<Joc*>l;
@@ -131,7 +145,7 @@ void modificareJoc(char *argv[])
         if(ok==0)cout<<"Pretul produsului a fost modificat";
         else cout<<"Nu s-a gasit produsul respectiv";
 }
-
+}
 Oferta** vizualizareOferte(int ok)
 {
         Oferta**o;
@@ -172,8 +186,13 @@ Oferta** vizualizareOferte(int ok)
     if(ok==1)
         return o;
 }
-void adaugaOferta(char*argv[])
+void adaugaOferta(char*argv[], int argc)
 {
+    if(argc<5)
+        cout<<"Sintaxa invlida! Sintaxa corecta: <adaugare_oferta> id(int) pret(double) nrJocuri(int) nrJocuri*(idJoc(int) Nume Joc(string) pret(double) Nr Cumparari(int) memorie(double))";
+    else if(argc>=5&& stoi(argv[4])*5+5!=argc){cout<<"Sintaxa invalida! Sintaxa corecta: <adaugare_oferta> id(int) pret(double) nrJocuri(int) nrJocuri*(idJoc(int) Nume Joc(string) pret(double) Nr Cumparari(int) memorie(double))";
+    }
+    else{
     ifstream fin1("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");
         int nrOferte;
         fin1>>nrOferte;
@@ -218,7 +237,7 @@ void adaugaOferta(char*argv[])
                     getline(fin,denumire);
                     fin>>pret>>nrC>>memorie;
                     Joc *j1= new Joc(id,denumire,pret,nrC,memorie);
-                    j1->afisareJ();
+
                     o[i]->adaugaJoc(j1,j);
                 }
             }
@@ -249,10 +268,13 @@ void adaugaOferta(char*argv[])
             }
         cout<<"Aceasta oferta a fost adaugata";
        }
-
+    }
 }
-void stergereOferta(char*argv[])
+void stergereOferta(char*argv[], int args)
 {
+    if(args!=3)
+        cout<<"Sintaxa invalida! Sintaxa corecta: <stergere_oferta> id(int)";
+    else{
     ifstream fin1("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");
         int nrOferte;
         fin1>>nrOferte;
@@ -297,28 +319,63 @@ void stergereOferta(char*argv[])
                 }
             }
         for(int i=0;i<nrOferte;i++)
-    
-          ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");//scrierea in fisier
-          fout<<nrOferte-1<<"\n";
-          int ids=stoi(argv[2]);
-         for(int i=0;i<nrOferte;i++)
-            {
-                    if(ids!=o[i]->getId())
-                    {fout<<o[i]->getId();
-                    fout<<"\n";
-                    fout<<o[i]->getPret();
-                    fout<<"\n";
-                    fout<<o[i]->getNrj();
-                    fout<<"\n";
-                    for(int j=0;j<o[i]->getNrj();j++)
-                        fout<<*(o[i]->getJoc(j));
+
+            {   ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\oferte.txt");//scrierea in fisier
+              fout<<nrOferte-1<<"\n";
+              int ids=stoi(argv[2]);
+             for(int i=0;i<nrOferte;i++)
+                {
+                        if(ids!=o[i]->getId())
+                        {fout<<o[i]->getId();
+                        fout<<"\n";
+                        fout<<o[i]->getPret();
+                        fout<<"\n";
+                        fout<<o[i]->getNrj();
+                        fout<<"\n";
+                        for(int j=0;j<o[i]->getNrj();j++)
+                            fout<<*(o[i]->getJoc(j));
                         }
+
+                }
 
             }
         cout<<"Aceasta oferta a fost stearsa";
        }
-
+    }
 }
+
+void maximCumpJoc(char*argv[])
+{
+    int nrc=-1;
+     vector<Joc*>l;
+        int ok=1;
+        ifstream fin("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");
+        int nrJocuri;
+        fin>>nrJocuri;
+       for(int i=0;i<nrJocuri;i++)
+        {
+            int id, nrC;
+            string denumire;
+            double pret, memorie;
+            fin>>id;
+            fin.ignore();
+            getline(fin,denumire);
+            fin>>pret>>nrC>>memorie;
+            if(nrC>nrc)
+                nrc=nrC;
+            Joc j1(id,denumire,pret,nrC,memorie);
+            l.push_back(new Joc(j1));
+        }
+    for(int i=0;i<l.size();i++)
+          {
+              if(l[i]->getNrC()==nrc)
+              {
+                 // cout<<"OK";
+                  l[i]->afisareJ();cout<<'\n';
+            }
+        }
+}
+
 int main(int argc, char*argv[])
 {
 
@@ -328,15 +385,15 @@ int main(int argc, char*argv[])
     }
    else if(strcmp(argv[1],"adaugare_joc")==0)
     {
-        adaugareJoc(argv);
+        adaugareJoc(argv, argc);
     }
     else if(strcmp(argv[1],"stergere_joc")==0)
     {
-        stergeJoc(argv);
+        stergeJoc(argv,argc);
     }
     else if(strcmp(argv[1],"modificare_joc")==0)
     {
-        modificareJoc(argv);
+        modificareJoc(argv,argc);
     }
     else if(strcmp(argv[1],"vizualizare_oferte")==0)
     {
@@ -344,11 +401,16 @@ int main(int argc, char*argv[])
     }
      else if(strcmp(argv[1],"adaugare_oferta")==0)
     {
-        adaugaOferta(argv);
+        adaugaOferta(argv,argc);
     }
     else if(strcmp(argv[1],"stergere_oferta")==0)
     {
-        stergereOferta(argv);
+        stergereOferta(argv,argc);
     }
+    else if(strcmp(argv[1],"viz_cele_mai_cump_jocuri")==0)
+    {
+        maximCumpJoc(argv);
+    }
+
     return 0;
 }
