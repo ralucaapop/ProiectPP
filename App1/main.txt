@@ -22,8 +22,7 @@ void citire()
             fin.ignore();
             getline(fin,denumire);
             fin>>pret>>nrC>>memorie;
-            Joc j1(id,denumire,pret,nrC,memorie);
-            cout<<j1;
+            cout<<"ID: "<<id<<"\nNume: "<<denumire<<"\nMemorie: "<<memorie<<"\nNrCumparari: "<<nrC<<"\nPret: "<<pret;
             cout<<endl<<endl;
         }
 }
@@ -31,7 +30,7 @@ void adaugareJoc(char*argv[],int args)
 {
     //cout<<args;
         if(args!=7)
-            cout<<"Sintaxa invalida! Sintaxa corecta: <adaugare_joc> id(int) Nume Joc(string) pret(double) Nr Cumparari(int) memorie(double)";
+            cout<<"Sintaxa invalida! Sintaxa corecta: <adaugare_joc> id(int) Nume Joc(string) memorie(double) Nr Cumparari(int) pret(double)";
         else
     {
         list<Joc*>l;
@@ -50,14 +49,14 @@ void adaugareJoc(char*argv[],int args)
             fin.ignore();
             getline(fin,denumire);
             fin>>pret>>nrC>>memorie;
-            Joc j1(id,denumire,pret,nrC,memorie);
+            Joc j1(id,denumire,memorie,nrC,pret);
             l.push_back(new Joc(j1));
         }
         if(ok==1)
         {nrJocuri++;
         Joc j(stoi(argv[2]),argv[3], stod(argv[4]),stoi(argv[5]), stod(argv[6]));
         l.push_back(new Joc(j));
-        cout<<"Produsul a fost adaugat deja in magazin";
+        cout<<"Produsul a fost adaugat in magazin";
         }
         else cout<<"Deja exista un produs cu acest id!";
 
@@ -88,7 +87,7 @@ void stergeJoc(char*argv[], int args)
             fin>>id;
             fin.ignore();
             getline(fin,denumire);
-            fin>>pret>>nrC>>memorie;
+            fin>>memorie>>nrC>>pret;
             Joc j1(id,denumire,pret,nrC,memorie);
             l.push_back(new Joc(j1));
         }
@@ -133,7 +132,7 @@ else{
             fin>>pret>>nrC>>memorie;
             if(id==idA)
                 {pret=pretA;ok=0;}
-            Joc j1(id,denumire,pret,nrC,memorie);
+            Joc j1(id,denumire,memorie,nrC,pret);
             l.push_back(new Joc(j1));
         }
         ofstream fout("C:\\Users\\Raluca\\OneDrive\\Desktop\\fac\\ProJoc\\Shared\\files\\produse.txt");//scrierea in fisier
@@ -174,7 +173,7 @@ Oferta** vizualizareOferte(int ok)
                 fin.ignore();
                 getline(fin,denumire);
                 fin>>pret>>nrC>>memorie;
-                Joc *j1= new Joc(id,denumire,pret,nrC,memorie);
+                Joc *j1= new Joc(id,denumire,memorie,nrC,pret);
                 //->afisare();
                 o[i]->adaugaJoc(j1,j);
 
@@ -236,7 +235,7 @@ void adaugaOferta(char*argv[], int argc)
                     fin.ignore();
                     getline(fin,denumire);
                     fin>>pret>>nrC>>memorie;
-                    Joc *j1= new Joc(id,denumire,pret,nrC,memorie);
+                    Joc *j1= new Joc(id,denumire,memorie,nrC,pret);
 
                     o[i]->adaugaJoc(j1,j);
                 }
@@ -314,7 +313,7 @@ void stergereOferta(char*argv[], int args)
                     fin.ignore();
                     getline(fin,denumire);
                     fin>>pret>>nrC>>memorie;
-                    Joc *j1= new Joc(idj,denumire,pret,nrC,memorie);
+                    Joc *j1= new Joc(idj,denumire,memorie,nrC,pret);
                     o[i]->adaugaJoc(j1,j);
                 }
             }
@@ -363,7 +362,7 @@ void maximCumpJoc(char*argv[])
             fin>>pret>>nrC>>memorie;
             if(nrC>nrc)
                 nrc=nrC;
-            Joc j1(id,denumire,pret,nrC,memorie);
+            Joc j1(id,denumire,memorie,nrC,pret);
             l.push_back(new Joc(j1));
         }
     for(int i=0;i<l.size();i++)
